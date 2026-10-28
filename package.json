@@ -1,0 +1,104 @@
+{
+  "name": "css-quick-style",
+  "displayName": "CSS Quick Style",
+  "description": "CSS Modules benzeri sınıf önerileri; stil/dosya/klasör yoksa sorup oluştur ve dosyadan ayrılmadan satır içi (peek) kutuda CSS yaz, Ctrl+S ile kaydet + Live Preview yenile. Tailwind uyumlu.",
+  "version": "0.1.0",
+  "publisher": "ZulkarneynKarauce",
+  "author": "Zülkarneyn Karaüce",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZulkarneynKarauce/css-quick-style.git"
+  },
+  "icon": "icon.png",
+  "keywords": [
+    "css",
+    "css modules",
+    "tailwind",
+    "peek",
+    "class"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "cssQuick.editAtCursor",
+        "title": "CSS Quick Style: İmleçteki stili düzenle (peek)"
+      },
+      {
+        "command": "cssQuick.saveCss",
+        "title": "CSS Quick Style: CSS dosyalarını kaydet ve önizlemeyi yenile"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "cssQuick.editAtCursor",
+        "key": "ctrl+alt+e",
+        "mac": "cmd+alt+e",
+        "when": "editorTextFocus && (resourceLangId == html || resourceLangId == javascript || resourceLangId == typescript || resourceLangId == javascriptreact || resourceLangId == typescriptreact)"
+      },
+      {
+        "command": "cssQuick.saveCss",
+        "key": "ctrl+s",
+        "mac": "cmd+s",
+        "when": "referenceSearchVisible"
+      }
+    ],
+    "configuration": {
+      "title": "CSS Quick Style",
+      "properties": {
+        "cssQuick.aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "styles"
+          ],
+          "description": "Bu isimlerle 'isim.' yazınca mevcut dosyanın kendi CSS'i (users.tsx → users.module.css) kullanılır. Diğer tüm isimler dosya adı sayılır: buton.dark → buton.css, klasör/buton.dark → klasör/buton.css."
+        },
+        "cssQuick.stylesFolder": {
+          "type": "string",
+          "default": "",
+          "description": "Yeni CSS dosyaları bu klasörde oluşturulur (kaynak dosyaya göre göreli, ör. 'styles'). Boşsa kaynak dosyanın yanında oluşturulur."
+        },
+        "cssQuick.createForUnknownIdentifiers": {
+          "type": "boolean",
+          "default": true,
+          "description": "Bilinmeyen bir isimle 'buton.dark' yazınca, buton.css yoksa 'Oluştur' seçeneğini göster (oluşturmadan önce sorulur)."
+        },
+        "cssQuick.tailwind": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "on",
+            "off"
+          ],
+          "default": "auto",
+          "description": "Tailwind uyumu. auto: tailwind.config / package.json / @import \"tailwindcss\" varsa açılır. Açıkken class/className içinde 'Oluştur' gösterilmez (yardımcı sınıflarla karışmasın), yeni kurallara @apply eklenir ve Tailwind v4'te @reference yazılır."
+        },
+        "cssQuick.tailwindApply": {
+          "type": "boolean",
+          "default": true,
+          "description": "Tailwind açıkken yeni kuralın içine '@apply ;' yazıp imleci oraya koy (Tailwind CSS IntelliSense yüklüyse yardımcı sınıf önerileri gelir)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^4.1.0"
+  }
+}
